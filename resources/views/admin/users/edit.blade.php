@@ -14,6 +14,7 @@
         <div class="col-sm-9">
 
             {!! Form::model($user, ['method'=>'PATCH', 'action'=>['AdminUsersController@update', $user->id],'files'=>true] ) !!}
+            {{ csrf_field() }}
 
 
             <div class="form-group">
@@ -49,10 +50,19 @@
 
 
             <div class="form-group">
-                {!! Form::submit('create User', ['class'=>'btn btn-info']) !!}
+                {!! Form::submit('update User', ['class'=>'btn btn-info col-sm-6']) !!}
             </div>
 
             {!! Form::close() !!}
+
+            {!! Form::open(['method'=>'DELETE', 'action'=>['AdminUsersController@destroy', $user->id], 'files'=> true]) !!}
+
+                <div class="form-group">
+                    {!! Form::submit('Delete User', ['class'=>'btn btn-danger col-sm-6']) !!}
+                </div>
+
+            {!! Form::close() !!}
+
 
         </div>
 
