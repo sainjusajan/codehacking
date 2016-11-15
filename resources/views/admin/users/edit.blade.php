@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-3">
 
-            <img src="{{ asset($user->photo? $user->photo->file: 'http://placehold.it/400x400' )}}" alt="" class="img-responsive img-rounded">
+            <img src="{{ asset($user->photo? 'uploads/users/'.$user->photo->file: 'http://placehold.it/400x400' )}}" alt="" class="img-responsive img-rounded">
 
         </div>
 

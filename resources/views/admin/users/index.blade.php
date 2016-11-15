@@ -31,7 +31,7 @@
                    <td>{{ $user->id }}</td>
                    <td>
                      @if($user->photo)
-                           <img src="{{ asset($user->photo->file)}}" alt="" height="50">
+                           <img src="{{ asset('uploads/users/' .$user->photo->file)}}" alt="" height="50">
 
                      @else
                        no user photo
