@@ -49,7 +49,7 @@ class AdminPostsController extends Controller
         if ($file = $request->file('photo_id')){
 
             $name = time(). $file->getClientOriginalName();
-            $file->move('uploads/images', $name);
+            $file->move('uploads/posts', $name);
             $photo = Photo::create(['file'=>$name]);
             $input['photo_id'] = $photo->id;
 
@@ -80,7 +80,10 @@ class AdminPostsController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.posts.edit');
+
+        $post = Posts::findOrFail($id);
+        $categories = Category::lists('name', 'id')->all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -92,7 +95,18 @@ class AdminPostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        if($file = $request->file('photo_id')){
+
+            $name = time().$file->getClientOriginalName();
+            $file->move('uploads/posts', $name);
+            $photo = Photo::create(['file'=>$name]);
+            $input['photo_id']=$photo->id;
+
+        }
+        Auth::User()->posts()->whereId($id)->first()->update($input);
+        return redirect('/admin/posts');
+
     }
 
     /**
@@ -103,6 +117,11 @@ class AdminPostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Posts::findOrFail($id);
+
+        unlink(public_path(). '\uploads\posts\\'. $post->photo->file);
+        $post->delete();
+
+        return redirect('/admin/posts');
     }
 }
